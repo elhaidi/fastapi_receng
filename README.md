@@ -1,3 +1,3 @@
 # TestDrivenApp
 
-A tool for grading coed exercises similar to codecademy<
+A template foir building a rec eng as a service.

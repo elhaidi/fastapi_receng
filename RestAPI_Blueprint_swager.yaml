@@ -1,0 +1,261 @@
+---
+openapi: 3.0.0
+info:
+  title: API for Course recommandation
+  description: This API will wrape the model for recommanding the courses in addition to other features related to practitioners
+  contact:
+    name: haidi
+    email: haidiacea@gmail.com
+  version: 2.0.0
+externalDocs:
+  description: Here you will find more documentation and upcoming ressources for the logic behind the API
+  url: aceaglobal.com
+servers:
+- url: https://localhost:5330/api/v1
+  description: PRODCUTION SERVER
+- url: https://{hotname}:{port}/stagingapi/v1
+  description: TESTING SERVER
+  variables:
+    hostname:
+      default: localhost
+    port:
+      default: "5331"
+      enum:
+      - "5331"
+      - "5332"
+tags:
+- name: Courses
+  description: This will contain all the ressources reltaed to the courses
+- name: Practionner
+  description: This will group all the ressources related to each practitionner
+paths:
+  /courses:
+    summary: Operations about the courses
+    description: Containes the list of all the courses
+    get:
+      tags:
+      - Courses
+      summary: get all the courses
+      description: return the list of all the courses
+      operationId: getCourses
+      parameters:
+      - name: sortBy
+        in: query
+        description: the sorting order
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: ../api/v1/courses?sortBy=asc
+          default: asc
+      responses:
+        "200":
+          description: Successfully returned all the courses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        "4XX":
+          description: input error from the user
+        default:
+          description: success request result not there yet
+    post:
+      tags:
+      - Courses
+      summary: adding  a course
+      description: adding a new course
+      operationId: addCourse
+      requestBody:
+        description: the new course to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body'
+        required: true
+      responses:
+        "201":
+          description: succefully added a new courses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/body'
+  /courses/{courseid}:
+    summary: Particular course
+    description: Operation reltaed to a unique course
+    get:
+      tags:
+      - Courses
+      summary: details of ine course
+      description: Return all inofrmation related to a unique course
+      operationId: getCourse
+      parameters:
+      - name: courseid
+        in: path
+        description: the id of course
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: number
+      responses:
+        "200":
+          description: Successfully return an individual course
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+    post:
+      tags:
+      - Courses
+      summary: add one course
+      description: post a new course
+      operationId: addoneCourse
+      parameters:
+      - name: courseid
+        in: path
+        description: the id of course
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: number
+      requestBody:
+        description: the new course to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_1'
+        required: true
+      responses:
+        "201":
+          description: succefully added a new courses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/body_1'
+  /practitionners:
+    summary: Operation about the practitionners
+    description: Containes the list of all the practitioners
+    get:
+      tags:
+      - Practionner
+      summary: get all the practitionner
+      description: return the list of the practitionners
+      operationId: getPractionners
+      parameters:
+      - name: sortBy
+        in: query
+        description: the sorting order
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: ../api/v1/practitionners?sortBy=asc
+          default: asc
+          enum:
+          - asc
+          - desc
+      responses:
+        "200":
+          description: Successfully returned all the list of the Practitioners
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Practitionners'
+        "4XX":
+          description: Input Error
+        default:
+          description: Sccuessfull request but no results found
+components:
+  schemas:
+    Course:
+      required:
+      - courseId
+      - courseTitle
+      type: object
+      properties:
+        courseId:
+          type: number
+        courseTitle:
+          type: string
+        courseDescription:
+          type: string
+        courseSpeciality:
+          type: string
+        courseRecommandation:
+          maximum: 5
+          minimum: 2
+          type: array
+          description: this will be courses to recommend
+          items:
+            $ref: '#/components/schemas/Course_courseRecommandation'
+      description: Represent a course entry
+      example:
+        courseId: 20,
+        courseTitle: skin cancer,
+        courseDescription: this certification is intended to ophtalomologist who .....
+        courseSpeciality: Ophtalmo
+        courseRecommandation:
+        - id: 34
+          courseTitle: SkinCAncer 2
+        - id: 45
+          courseTitle: SkinCancer 34
+    Practitionners:
+      type: array
+      description: A list of all the Practitionners
+      items:
+        $ref: '#/components/schemas/Practitionners_inner'
+    body:
+      required:
+      - courseSpeciality
+      - courseTitle
+      type: object
+      properties:
+        courseId:
+          type: number
+        courseTitle:
+          type: string
+        courseDescription:
+          type: string
+        courseSpeciality:
+          type: string
+      description: Represent a course entry
+    body_1:
+      required:
+      - courseSpeciality
+      - courseTitle
+      type: object
+      properties:
+        courseId:
+          type: number
+        courseTitle:
+          type: string
+        courseDescription:
+          type: string
+        courseSpeciality:
+          type: string
+      description: Represent a course entry
+    Course_courseRecommandation:
+      properties:
+        id:
+          type: number
+        course_recommended:
+          type: string
+    Practitionners_inner:
+      required:
+      - id
+      - name
+      - speciality
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        speciality:
+          type: string
+      example:
+        id: 34
+        name: DR. Watson
+        speciality: Surgeon

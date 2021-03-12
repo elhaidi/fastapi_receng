@@ -29,6 +29,12 @@ tags:
 - name: Practionner
   description: This will group all the ressources related to each practitionner
 paths:
+  /users/{email}:
+    get:
+      description: get user details email
+      responses:
+        '200':
+          description: OK
   /courses:
     summary: Operations about the courses
     description: Containes the list of all the courses
@@ -80,6 +86,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/body'
+
   /courses/{courseid}:
     summary: Particular course
     description: Operation reltaed to a unique course
@@ -134,9 +141,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/body_1'
-  /practitionners:
-    summary: Operation about the practitionners
-    description: Containes the list of all the practitioners
+  /users:
+    summary: Operation about the practitionners, CE App users
+    description: Contains the list of all the practitioners
     get:
       tags:
       - Practionner

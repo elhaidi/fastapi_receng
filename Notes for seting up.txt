@@ -1,5 +1,0 @@
-we also have to configure inside the variables the TLS certificate: DOCKER_TLS_CERTDIR: "". otherwise, docker will be available through port 2736 and not 2735
-
-
-AWS_ACCESS_KEY_ID:
-AWS_SECRET_ACCESS_KEY:

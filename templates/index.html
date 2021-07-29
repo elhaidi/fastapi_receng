@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+
+<img src="/static/img/acea.png" style="float: left; max-width: 48px; margin-right: 20px;" alt="">
+
+<h1><span class="font-semi-bold">RECENG : </span> <span class="smaller">A REST API for
+        course recomendations</span>
+</h1>
+
+
+<div style="clear:both;"></div>
+<br>
+<br>
+<p class="lead">
+    The RECENG service.<br>
+    <br>
+    <strong>Endpoints</strong>
+<ul>
+    <li>
+        <strong>Course information</strong><br>
+        <a href="/api/rec/1?title=title1&speciality=surgery" target="_blank"><strong>GET
+                /api/rec/{course_id}?title={title}speciality={speciality}</strong></a><br>
+        <br>
+        <div style="font-size: 12px;">
+            <strong>Parameters</strong>
+            <ul>
+                <li><strong>Required</strong>: <code>course_id={course_id}</code> - the id of the course you want to
+                    get.
+                </li>
+                <li>Optional: <code>title={titile}</code> - the title of the course.
+                </li>
+                <li>Optional: <code>speciality={speciality}</code> - the speciality name more than 3 words.
+                </li>
+            </ul>
+
+            <strong>Response JSON</strong>
+            <ul>
+                <li>Click <a href="/api/weather/1?title=title1&speciality=surgery" target="_blank">the link
+                        above</a> to see example output.
+                </li>
+            </ul>
+        </div>
+    </li>
+</ul>
+</p>
+
+</div>
+
+{% endblock %}
